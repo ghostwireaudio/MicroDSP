@@ -13,6 +13,7 @@ GainProcessorAudioProcessor::GainProcessorAudioProcessor()
                      #endif
                        )
 {
+    gain = 1.0f;
 }
 
 // Clean up any resources (none needed here).
@@ -159,10 +160,10 @@ void GainProcessorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-        juce::ignoreUnused (channelData);
+        //juce::ignoreUnused (channelData);
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-            // Multiply by rawVolume (linear gain).
-            channelData[sample] = buffer.getSample(channel, sample) * rawVolume;
+            // Multiply by the gain value (linear gain).
+            channelData[sample] *= gain;
         }
     }
 }

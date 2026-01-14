@@ -55,7 +55,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     // The current gain value (linear scale, not dB).
-    float rawVolume;
+    float gain;
 
 private:
     //==============================================================================

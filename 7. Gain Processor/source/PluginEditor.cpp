@@ -13,8 +13,8 @@ GainProcessorAudioProcessorEditor::GainProcessorAudioProcessorEditor (GainProces
     // Configure the gain slider appearance and range.
     gainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     gainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    gainSlider.setRange(-40.0, 0.0);
-    gainSlider.setValue(-1.0);
+    gainSlider.setRange(-40.0, 6.0, 0.01);
+    gainSlider.setValue(0.0);
     // Listen to slider changes and show it on screen.
     gainSlider.addListener(this);
     addAndMakeVisible(gainSlider);
@@ -46,6 +46,6 @@ void GainProcessorAudioProcessorEditor::resized()
 void GainProcessorAudioProcessorEditor::sliderValueChanged(juce::Slider* slider) {
     if (slider == &gainSlider) {
         // Convert dB to linear gain and store it in the processor.
-        processorRef.rawVolume = pow(10, gainSlider.getValue() / 20);
+        processorRef.gain = juce::Decibels::decibelsToGain(static_cast<float>(gainSlider.getValue()));
     }
 }
