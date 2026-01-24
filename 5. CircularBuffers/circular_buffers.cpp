@@ -72,7 +72,7 @@ int main() {
         return 1;
     }
 
-    // Clauclate number of samples
+    // Calculate number of samples
     // subchunk2Size is in bytes, so we divide by bytes per sample
     const uint32_t bytesPerSample = header.bitsPerSample / 8;
     const uint32_t numSamples = header.subchunk2Size / bytesPerSample;
@@ -94,7 +94,7 @@ int main() {
 
     // Converts delay time from milliseconds to samples
     // delaySamples = delaySeconds * sampleRate
-    const uint32_t delaySamples = static_cast<uint32_t>((delayMs / 1000.0f) * header.sampleRate);
+    const auto delaySamples = static_cast<uint32_t>((delayMs / 1000.0f) * header.sampleRate);
     
     // Output buffer
     // Will hold processed audio samples
@@ -117,7 +117,7 @@ int main() {
 
         // Current input sample (converted to float for mixing math)
         // The input is still int16_t, but float allows for fractional mixing
-        const float x = static_cast<float>(input[n]);
+        const auto x = static_cast<float>(input[n]);
 
         // Computes the read index = "delaySamples behind the write head"
         // Must be done using signed integers so we can detect negatives
@@ -125,7 +125,7 @@ int main() {
         
         // If the readIndex is negative, wrap it around to the end of the buffer
         if (readIndex < 0) {
-            readIndex += maxDelaySamples;
+            readIndex += static_cast<int32_t>(maxDelaySamples);
         }
 
         // Read the delayed sample from the delay buffer
